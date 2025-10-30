@@ -42,6 +42,12 @@ ${html}
         const html = MarkdownRenderer.render(markdown);
         const css = customCSS || StyleManager.getDefaultExportCSS();
 
+        // Create a temporary style element in the head
+        const styleElement = document.createElement('style');
+        styleElement.id = 'pdf-export-styles';
+        styleElement.textContent = css;
+        document.head.appendChild(styleElement);
+
         // Create a temporary container
         const container = document.createElement('div');
         container.style.position = 'absolute';
@@ -51,15 +57,8 @@ ${html}
         container.style.backgroundColor = '#ffffff';
         container.style.padding = '40px';
         
-        // Apply styles
-        const styleElement = document.createElement('style');
-        styleElement.textContent = css;
-        container.appendChild(styleElement);
-        
         // Add content
-        const contentDiv = document.createElement('div');
-        contentDiv.innerHTML = html;
-        container.appendChild(contentDiv);
+        container.innerHTML = html;
         
         document.body.appendChild(container);
 
@@ -72,7 +71,8 @@ ${html}
                 html2canvas: { 
                     scale: 2,
                     useCORS: true,
-                    letterRendering: true
+                    letterRendering: true,
+                    backgroundColor: '#ffffff'
                 },
                 jsPDF: { 
                     unit: 'mm', 
@@ -90,6 +90,10 @@ ${html}
         } finally {
             // Clean up
             document.body.removeChild(container);
+            const style = document.getElementById('pdf-export-styles');
+            if (style) {
+                document.head.removeChild(style);
+            }
         }
     },
 
