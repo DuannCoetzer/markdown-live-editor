@@ -42,66 +42,69 @@ ${html}
         const html = MarkdownRenderer.render(markdown);
         const css = customCSS || StyleManager.getDefaultExportCSS();
 
-        // Create full HTML document
-        const fullHTML = `
-            <div style="
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-                line-height: 1.6;
-                color: #333;
-                max-width: 800px;
-                margin: 40px auto;
-                padding: 20px;
-                background-color: #ffffff;
-            ">
-                ${html}
-            </div>
+        // Parse CSS and create inline styles object for common elements
+        const inlineStyles = `
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            padding: 20px;
+            background-color: #ffffff;
+            width: 750px;
         `;
 
-        // Create a temporary container with proper visibility
+        // Create a temporary container that's visible
         const container = document.createElement('div');
-        container.style.position = 'fixed';
-        container.style.left = '0';
-        container.style.top = '0';
-        container.style.width = '210mm'; // A4 width
-        container.style.backgroundColor = '#ffffff';
-        container.style.zIndex = '-9999';
-        container.style.opacity = '0';
-        container.style.pointerEvents = 'none';
+        container.style.cssText = `
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 750px;
+            background-color: #ffffff;
+            padding: 20px;
+            z-index: 99999;
+            overflow: visible;
+        `;
+        container.innerHTML = html;
         
-        // Create style element and add CSS
-        const styleElement = document.createElement('style');
-        styleElement.textContent = css;
-        container.appendChild(styleElement);
-        
-        // Add content wrapper
-        const contentWrapper = document.createElement('div');
-        contentWrapper.innerHTML = html;
-        container.appendChild(contentWrapper);
+        // Apply CSS styles via a style tag in the document head temporarily
+        const tempStyle = document.createElement('style');
+        tempStyle.id = 'temp-pdf-styles';
+        tempStyle.textContent = css;
+        document.head.appendChild(tempStyle);
         
         document.body.appendChild(container);
 
-        // Wait for rendering
-        await new Promise(resolve => setTimeout(resolve, 100));
+        // Wait for rendering and fonts to load
+        await new Promise(resolve => setTimeout(resolve, 500));
 
         try {
-            // Configure html2pdf options
+            // Configure html2pdf options with more reliable settings
             const options = {
-                margin: 10,
+                margin: [10, 10, 10, 10],
                 filename: `markdown-export-${Date.now()}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
+                image: { 
+                    type: 'jpeg', 
+                    quality: 0.95 
+                },
                 html2canvas: { 
                     scale: 2,
                     useCORS: true,
-                    letterRendering: true,
+                    logging: true,
                     backgroundColor: '#ffffff',
-                    logging: false,
-                    windowWidth: 794, // A4 width in pixels at 96 DPI
-                    windowHeight: 1123 // A4 height in pixels at 96 DPI
+                    windowWidth: 750,
+                    scrollY: -window.scrollY,
+                    scrollX: -window.scrollX,
+                    allowTaint: true
                 },
                 jsPDF: { 
                     unit: 'mm', 
                     format: 'a4', 
-                    orientation: 'portrait' 
+                    orientation: 'portrait',
+                    compress: true
+                },
+                pagebreak: { 
+                    mode: ['avoid-all', 'css', 'legacy']
                 }
             };
 
@@ -110,10 +113,16 @@ ${html}
             
         } catch (error) {
             console.error('PDF export error:', error);
-            alert('Error exporting to PDF. Please try again.');
+            alert('Error exporting to PDF: ' + error.message);
         } finally {
             // Clean up
-            document.body.removeChild(container);
+            if (container.parentNode) {
+                document.body.removeChild(container);
+            }
+            const tempStyleEl = document.getElementById('temp-pdf-styles');
+            if (tempStyleEl) {
+                document.head.removeChild(tempStyleEl);
+            }
         }
     },
 
