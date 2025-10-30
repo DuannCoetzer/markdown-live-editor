@@ -78,10 +78,10 @@
     font-family: 'Spectral SC', serif;
     font-size: 3.5em;
     font-weight: bold;
-    line-height: 0.85;
+    line-height: 0.75;
     float: left;
     margin-right: 0.05em;
-    margin-top: 0;
+    margin-top: -0.05em;
     color: #58180d;
 }
 
@@ -166,6 +166,37 @@
 .markdown-preview li {
     margin-bottom: 0.1cm;
     text-indent: 0;
+}
+
+/* Task list styling */
+.markdown-preview input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 0.4cm;
+    height: 0.4cm;
+    border: 2px solid #58180d;
+    border-radius: 2px;
+    background-color: #faf7ea;
+    cursor: pointer;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 0.2cm;
+    margin-left: -0.8cm;
+}
+
+.markdown-preview input[type="checkbox"]:checked {
+    background-color: #58180d;
+}
+
+.markdown-preview input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #faf7ea;
+    font-size: 0.3cm;
+    font-weight: bold;
 }
 
 .markdown-preview ul li::marker {

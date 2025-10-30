@@ -147,6 +147,296 @@ const StyleManager = {
         return this.customCssTextarea.value;
     },
 
+    // Get Homebrewery theme CSS for export
+    getHomebreweryCSS() {
+        // Embed the entire themes.css content
+        return `
+/* Homebrewery D&D 5e Styling */
+.markdown-preview {
+    color: #000;
+    font-family: 'Crimson Text', 'BookInsanity', serif;
+    font-size: 14px;
+    column-count: 1;
+    column-gap: 1cm;
+    column-fill: auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+/* Enable 2-column layout on wider screens */
+@media (min-width: 1200px) {
+    .markdown-preview {
+        column-count: 2;
+    }
+}
+
+/* Headings - D&D Style */
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3,
+.markdown-preview h4,
+.markdown-preview h5,
+.markdown-preview h6 {
+    font-family: 'Spectral SC', 'Mr Eaves Small Caps', 'Scaly Sans', serif;
+    color: #58180d;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 0.3cm;
+    margin-bottom: 0.1cm;
+    column-span: all;
+}
+
+.markdown-preview h1 {
+    font-size: 0.89cm;
+    border-bottom: 2px solid #c0ad6a;
+    padding-bottom: 0.1cm;
+    margin-bottom: 0.3cm;
+    text-transform: uppercase;
+    letter-spacing: 0.03cm;
+}
+
+.markdown-preview h2 {
+    font-size: 0.63cm;
+    border-bottom: 1px solid #c0ad6a;
+    padding-bottom: 0.05cm;
+    margin-bottom: 0.2cm;
+}
+
+.markdown-preview h3 {
+    font-size: 0.5cm;
+    border-bottom: 1px solid #c0ad6a;
+    padding-bottom: 0.03cm;
+}
+
+.markdown-preview h4 {
+    font-size: 0.42cm;
+}
+
+.markdown-preview h5 {
+    font-size: 0.38cm;
+    font-style: italic;
+}
+
+.markdown-preview h6 {
+    font-size: 0.34cm;
+    font-style: italic;
+    color: #3d2817;
+}
+
+/* Drop Caps */
+.markdown-preview p:first-of-type::first-letter {
+    font-family: 'Spectral SC', serif;
+    font-size: 3.5em;
+    font-weight: bold;
+    line-height: 0.75;
+    float: left;
+    margin-right: 0.05em;
+    margin-top: -0.05em;
+    color: #58180d;
+}
+
+.markdown-preview p {
+    margin-bottom: 16px;
+    text-align: left;
+    text-indent: 0;
+}
+
+.markdown-preview p + p {
+    text-indent: 0;
+}
+
+.markdown-preview a {
+    color: #58180d;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.markdown-preview a:hover {
+    color: #c0ad6a;
+}
+
+.markdown-preview code {
+    background-color: #faf7ea;
+    padding: 0.05cm 0.1cm;
+    border: 1px solid #e0d8c6;
+    border-radius: 2px;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 0.9em;
+    color: #58180d;
+}
+
+.markdown-preview pre {
+    background-color: #faf7ea;
+    border: 1px solid #c0ad6a;
+    padding: 0.3cm;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 0.4cm 0;
+    break-inside: avoid;
+}
+
+.markdown-preview pre code {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    color: #3d2817;
+}
+
+.markdown-preview blockquote {
+    background: #faf7ea;
+    border: 2px solid #c0ad6a;
+    border-radius: 5px;
+    padding: 0.4cm;
+    margin: 0.4cm 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-style: italic;
+    color: #3d2817;
+    position: relative;
+    break-inside: avoid;
+}
+
+.markdown-preview blockquote::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, transparent 48%, #c0ad6a 49%, #c0ad6a 51%, transparent 52%);
+    background-size: 10px 10px;
+    pointer-events: none;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+    margin: 0.3cm 0;
+    padding-left: 0.8cm;
+}
+
+.markdown-preview li {
+    margin-bottom: 0.1cm;
+    text-indent: 0;
+}
+
+.markdown-preview ul li::marker {
+    color: #58180d;
+}
+
+/* Task list styling */
+.markdown-preview input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 0.4cm;
+    height: 0.4cm;
+    border: 2px solid #58180d;
+    border-radius: 2px;
+    background-color: #faf7ea;
+    cursor: pointer;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 0.2cm;
+    margin-left: -0.8cm;
+}
+
+.markdown-preview input[type="checkbox"]:checked {
+    background-color: #58180d;
+}
+
+.markdown-preview input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #faf7ea;
+    font-size: 0.3cm;
+    font-weight: bold;
+}
+
+.markdown-preview table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.4cm 0;
+    font-size: 0.3cm;
+    break-inside: avoid;
+}
+
+.markdown-preview th,
+.markdown-preview td {
+    border: 1px solid #c0ad6a;
+    padding: 0.15cm 0.2cm;
+    text-align: left;
+}
+
+.markdown-preview th {
+    background: linear-gradient(180deg, #e0dcc4 0%, #c9c5ad 100%);
+    font-family: 'Spectral SC', serif;
+    font-weight: 700;
+    color: #58180d;
+    text-transform: uppercase;
+    font-size: 0.32cm;
+}
+
+.markdown-preview tr:nth-child(even) {
+    background-color: #faf7ea;
+}
+
+.markdown-preview tr:hover {
+    background-color: #f5f0e0;
+}
+
+.markdown-preview img {
+    max-width: 100%;
+    height: auto;
+    margin: 0.4cm auto;
+    display: block;
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.markdown-preview hr {
+    border: none;
+    border-top: 3px solid #c0ad6a;
+    border-image: repeating-linear-gradient(90deg, #c0ad6a 0px, #c0ad6a 10px, transparent 10px, transparent 20px) 1;
+    margin: 0.6cm 0;
+    height: 3px;
+}
+
+.markdown-preview strong {
+    font-weight: 700;
+    color: #58180d;
+}
+
+.markdown-preview em {
+    font-style: italic;
+}
+
+.markdown-preview del {
+    text-decoration: line-through;
+    color: #8b7355;
+}
+
+/* Stat blocks and special formatting */
+.markdown-preview blockquote blockquote {
+    background: #e0dcc4;
+    border: none;
+    border-top: 2px solid #58180d;
+    border-bottom: 2px solid #58180d;
+    padding: 0.3cm;
+    margin: 0.3cm 0;
+    font-style: normal;
+}
+
+.markdown-preview blockquote blockquote h3 {
+    margin: 0;
+    font-size: 0.5cm;
+    color: #58180d;
+    border: none;
+}
+`;
+    },
+
     // Get default export CSS
     getDefaultExportCSS() {
         return `
