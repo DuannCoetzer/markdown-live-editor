@@ -21,19 +21,21 @@ A feature-rich, real-time markdown editor with PDF and HTML export capabilities.
 
 ### Prerequisites
 
-- Node.js (v14 or higher) - for running the local development server
 - A modern web browser (Chrome, Firefox, Safari, Edge)
+- Node.js (v14 or higher) - optional, for running the local development server
 
 ### Installation
 
 1. Clone or download this repository
 2. Navigate to the project directory
-3. Install dependencies:
+3. (Optional) Install Node.js dependencies for development server:
    ```bash
    npm install
    ```
 
 ### Running the Application
+
+#### Option 1: With Node.js Server (Recommended)
 
 Start the development server:
 
@@ -43,17 +45,15 @@ npm start
 
 This will start a local server on `http://localhost:8080` and automatically open the application in your default browser.
 
-Alternatively, you can use:
+Alternatively:
 
 ```bash
 npm run dev
 ```
 
-This runs the server without automatically opening the browser.
+#### Option 2: Without a Server
 
-### Without Node.js
-
-You can also open `index.html` directly in your browser. All dependencies are loaded from CDN, so the application will work without a local server.
+You can open `index.html` directly in your browser. All dependencies are loaded from CDN, so the application will work without a local server.
 
 ## 📖 Usage
 
@@ -85,8 +85,10 @@ You can also open `index.html` directly in your browser. All dependencies are lo
 - The HTML file can be opened in any browser
 
 #### PDF Export
-- Click **📑 Export PDF** to generate a PDF document
-- Custom styles are applied to the PDF
+- Click **📑 Export PDF** to generate a professional PDF document
+- PDFs are generated with proper margins (10mm on all sides)
+- Uses pdfmake for clean, text-based rendering (no artifacts)
+- Direct download - no print dialog required
 - The PDF is automatically downloaded to your default downloads folder
 
 ## 🎨 Styling Examples
@@ -143,7 +145,8 @@ code {
 
 - **Marked.js** - Fast markdown parser and compiler
 - **DOMPurify** - XSS sanitizer for HTML
-- **html2pdf.js** - Client-side PDF generation
+- **pdfmake** - Client-side PDF generation with proper margins
+- **html-to-pdfmake** - HTML to PDF conversion
 - **Vanilla JavaScript** - No heavy frameworks needed
 - **CSS3** - Modern styling with flexbox and animations
 - **LocalStorage API** - Client-side data persistence
@@ -153,18 +156,18 @@ code {
 ```
 markdown-live-editor/
 ├── index.html              # Main HTML entry point
-├── package.json            # Project dependencies
-├── README.md              # Documentation
-├── .gitignore             # Git ignore rules
+├── package.json            # Node.js dependencies
+├── README.md               # Documentation
+├── .gitignore              # Git ignore rules
 ├── src/
-│   ├── app.js             # Main application logic
-│   ├── storage.js         # LocalStorage management
-│   ├── markdown-renderer.js   # Markdown rendering
-│   ├── style-manager.js   # Style preset management
-│   └── export-manager.js  # HTML/PDF export logic
+│   ├── app.js              # Main application logic
+│   ├── storage.js          # LocalStorage management
+│   ├── markdown-renderer.js    # Markdown rendering
+│   ├── style-manager.js    # Style preset management
+│   └── export-manager.js   # HTML/PDF export logic
 └── styles/
-    ├── main.css           # Main application styles
-    └── themes.css         # Markdown preview themes
+    ├── main.css            # Main application styles
+    └── themes.css          # Markdown preview themes
 ```
 
 ## 🔧 Configuration
@@ -206,9 +209,9 @@ This project is licensed under the MIT License. You are free to use, modify, and
 
 ## 🐛 Known Issues
 
-- PDF export may not render some complex CSS properly (limitation of html2canvas)
-- Large documents may take time to convert to PDF
-- Some markdown extensions are not supported
+- Large documents may take a moment to convert to PDF
+- Some advanced markdown extensions are not supported
+- Complex tables may not render perfectly in PDF
 
 ## 🔮 Future Enhancements
 
@@ -229,7 +232,8 @@ For issues, questions, or suggestions, please open an issue on the project repos
 
 - **Marked.js** team for the excellent markdown parser
 - **DOMPurify** for security-focused HTML sanitization
-- **html2pdf.js** for client-side PDF generation
+- **pdfmake** for client-side PDF generation
+- **html-to-pdfmake** for HTML conversion
 - The markdown community for syntax standards
 
 ---
