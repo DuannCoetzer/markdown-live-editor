@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=MedievalSharp&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -5,9 +7,10 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: #1e1e1e;
-    color: #d4d4d4;
+    font-family: 'Libre Baskerville', 'Book Antiqua', serif;
+    background: linear-gradient(135deg, #704214 0%, #3d2817 50%, #704214 100%);
+    background-attachment: fixed;
+    color: #e0e0e0;
     overflow: hidden;
 }
 
@@ -19,19 +22,22 @@ body {
 
 /* Toolbar */
 .toolbar {
-    background-color: #252526;
-    padding: 15px 20px;
+    background: linear-gradient(180deg, #8b5a3c 0%, #6d4226 100%);
+    padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #3e3e42;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border-bottom: 3px solid #3d2415;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .toolbar h1 {
-    font-size: 20px;
-    font-weight: 500;
-    color: #cccccc;
+    font-family: 'MedievalSharp', 'Cinzel', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #f4e7d7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    letter-spacing: 1px;
 }
 
 .toolbar-actions {
@@ -40,22 +46,29 @@ body {
 }
 
 .btn {
-    background-color: #0e639c;
-    color: white;
-    border: none;
+    background: linear-gradient(180deg, #d4a574 0%, #a67c52 100%);
+    color: #2b1810;
+    border: 2px solid #8b5a3c;
     padding: 8px 16px;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.2s;
+    font-weight: 600;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.2s;
 }
 
 .btn:hover {
-    background-color: #1177bb;
+    background: linear-gradient(180deg, #e0b887 0%, #b8886b 100%);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
 }
 
 .btn:active {
-    background-color: #0d5285;
+    background: linear-gradient(180deg, #c49663 0%, #9a6f47 100%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
 }
 
 /* Editor Container */
@@ -108,10 +121,28 @@ body {
 
 .markdown-preview {
     flex: 1;
-    background-color: #1e1e1e;
-    padding: 20px;
+    background: #faf7f2;
+    background-image: 
+        linear-gradient(90deg, transparent 79px, #d4c7a8 79px, #d4c7a8 81px, transparent 81px),
+        linear-gradient(#ede8de 0.1em, transparent 0.1em);
+    background-size: 100% 1.5em;
+    padding: 40px 60px;
     overflow-y: auto;
     line-height: 1.6;
+    box-shadow: inset 0 0 30px rgba(186, 150, 93, 0.2), 0 0 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.markdown-preview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAG0lEQVQIW2NkYGD4z8DAwMgABXAGjgpkUwA3ABS4AH9JZKxeAAAAAElFTkSuQmCC');
+    opacity: 0.03;
+    pointer-events: none;
 }
 
 /* Resize Handle */
