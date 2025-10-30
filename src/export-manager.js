@@ -153,10 +153,22 @@ ${html}
     hr {
         margin: 32px 0 !important;
     }
-    /* Better page breaks */
+    /* Better page breaks and orphan/widow control */
     h1, h2, h3, h4, h5, h6 {
         page-break-after: avoid;
-        break-after: avoid;
+        break-after: avoid-page;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        orphans: 3;
+        widows: 3;
+    }
+    p, li {
+        orphans: 3;
+        widows: 3;
+        page-break-inside: avoid;
+    }
+    ul, ol {
+        page-break-inside: auto;
     }
     pre, blockquote, table {
         page-break-inside: avoid;
@@ -165,6 +177,7 @@ ${html}
     img {
         max-width: 100%;
         page-break-inside: avoid;
+        break-inside: avoid;
         margin: 20px 0 !important;
     }
     </style>
@@ -204,18 +217,25 @@ ${html}
             }
 
             const options = {
-                margin: 10,
+                margin: [10, 10, 10, 10],
                 filename: `markdown-export-${Date.now()}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2,
                     logging: false,
-                    backgroundColor: '#ffffff'
+                    backgroundColor: '#ffffff',
+                    windowHeight: iframeDoc.body.scrollHeight + 100
                 },
                 jsPDF: { 
                     unit: 'mm', 
                     format: 'a4', 
                     orientation: 'portrait' 
+                },
+                pagebreak: { 
+                    mode: ['avoid-all', 'css', 'legacy'],
+                    before: '.page-break-before',
+                    after: '.page-break-after',
+                    avoid: 'h1, h2, h3, h4, h5, h6, pre, blockquote, table'
                 }
             };
 
