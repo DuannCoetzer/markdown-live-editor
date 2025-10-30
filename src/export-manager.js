@@ -42,37 +42,49 @@ ${html}
         const html = MarkdownRenderer.render(markdown);
         const css = customCSS || StyleManager.getDefaultExportCSS();
 
-        // Use default CSS if no custom CSS provided
-        const exportCSS = css || StyleManager.getDefaultExportCSS();
+        // ALWAYS use default CSS for PDF export to ensure clean, light theme
+        const exportCSS = StyleManager.getDefaultExportCSS();
         
-        // Create HTML with inline styles
+        // Create a completely clean HTML document with no inheritance
         const styledHTML = `
 <!DOCTYPE html>
-<html>
+<html style="background: #ffffff; margin: 0; padding: 0;">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+    /* Complete CSS reset and clean styles */
     * {
-        box-sizing: border-box;
-    }
-    html, body {
-        background: #ffffff !important;
-        color: #333333 !important;
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+    }
+    html {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
     body {
+        background: #ffffff !important;
+        color: #333333 !important;
+        margin: 0 !important;
         padding: 40px 60px !important;
         min-height: 100vh;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
     }
     ${exportCSS}
-    /* PDF-specific overrides */
+    /* Additional PDF-specific overrides to ensure light theme */
     body {
         max-width: 100% !important;
-        background-color: #ffffff !important;
     }
     h1:first-child {
-        margin-top: 0;
+        margin-top: 0 !important;
+    }
+    /* Ensure all text is dark on light background */
+    h1, h2, h3, h4, h5, h6, p, li, td, th, blockquote {
+        color: #333333 !important;
+        background: transparent !important;
     }
     /* Better page breaks */
     h1, h2, h3, h4, h5, h6 {
@@ -89,7 +101,7 @@ ${html}
     }
     </style>
 </head>
-<body>
+<body style="background: #ffffff !important; color: #333333 !important;">
 ${html}
 </body>
 </html>`;
