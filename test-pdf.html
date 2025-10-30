@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Export Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div id="content" style="padding: 20px; background: white;">
+        <h1>Test Document</h1>
+        <p>This is a simple test to verify PDF export works.</p>
+        <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <li>Item 3</li>
+        </ul>
+    </div>
+    
+    <button onclick="exportPDF()" style="margin: 20px; padding: 10px 20px;">Export to PDF</button>
+    
+    <script>
+        async function exportPDF() {
+            console.log('Export button clicked');
+            const element = document.getElementById('content');
+            console.log('Element:', element);
+            console.log('Element HTML:', element.innerHTML);
+            
+            const options = {
+                margin: 10,
+                filename: 'test.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    logging: true,
+                    backgroundColor: '#ffffff'
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                }
+            };
+            
+            try {
+                console.log('Starting PDF generation...');
+                await html2pdf().set(options).from(element).save();
+                console.log('PDF generated successfully');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

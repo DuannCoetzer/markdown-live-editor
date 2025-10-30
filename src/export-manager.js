@@ -82,6 +82,15 @@ ${html}
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         try {
+            // Debug: Check if content exists
+            console.log('Iframe body innerHTML length:', iframeDoc.body.innerHTML.length);
+            console.log('Iframe body has children:', iframeDoc.body.children.length);
+            
+            // Make sure body has visible content
+            if (!iframeDoc.body.innerHTML || iframeDoc.body.innerHTML.trim().length === 0) {
+                throw new Error('No content to export');
+            }
+
             const options = {
                 margin: 10,
                 filename: `markdown-export-${Date.now()}.pdf`,
@@ -89,7 +98,11 @@ ${html}
                 html2canvas: { 
                     scale: 2,
                     logging: true,
-                    backgroundColor: '#ffffff'
+                    backgroundColor: '#ffffff',
+                    onclone: function(clonedDoc) {
+                        console.log('html2canvas cloned document');
+                        console.log('Cloned body height:', clonedDoc.body.scrollHeight);
+                    }
                 },
                 jsPDF: { 
                     unit: 'mm', 
@@ -98,8 +111,10 @@ ${html}
                 }
             };
 
+            console.log('Starting PDF generation...');
             // Generate PDF from iframe body
             await html2pdf().set(options).from(iframeDoc.body).save();
+            console.log('PDF generation completed');
             
         } catch (error) {
             console.error('PDF export error:', error);
