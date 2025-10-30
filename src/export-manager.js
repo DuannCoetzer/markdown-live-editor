@@ -42,6 +42,9 @@ ${html}
         const html = MarkdownRenderer.render(markdown);
         const css = customCSS || StyleManager.getDefaultExportCSS();
 
+        // Use default CSS if no custom CSS provided
+        const exportCSS = css || StyleManager.getDefaultExportCSS();
+        
         // Create HTML with inline styles
         const styledHTML = `
 <!DOCTYPE html>
@@ -52,21 +55,21 @@ ${html}
     * {
         box-sizing: border-box;
     }
-    html {
-        background: white;
+    html, body {
+        background: #ffffff !important;
+        color: #333333 !important;
+        margin: 0;
+        padding: 0;
     }
     body {
-        background: white !important;
-        margin: 0;
-        padding: 40px 60px;
+        padding: 40px 60px !important;
         min-height: 100vh;
     }
-    ${css}
+    ${exportCSS}
     /* PDF-specific overrides */
     body {
         max-width: 100% !important;
-        margin: 0 !important;
-        padding: 40px 60px !important;
+        background-color: #ffffff !important;
     }
     h1:first-child {
         margin-top: 0;
