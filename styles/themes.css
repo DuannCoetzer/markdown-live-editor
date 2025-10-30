@@ -4,11 +4,20 @@
 .markdown-preview {
     color: #000;
     font-family: 'Crimson Text', 'BookInsanity', serif;
-    font-size: 0.34cm;
-    column-count: 2;
+    font-size: 14px;
+    column-count: 1;
     column-gap: 1cm;
     column-fill: auto;
-    height: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+/* Enable 2-column layout on wider screens */
+@media (min-width: 1200px) {
+    .markdown-preview {
+        column-count: 2;
+    }
 }
 
 /* Headings - D&D Style */

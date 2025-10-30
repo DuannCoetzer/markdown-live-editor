@@ -122,10 +122,6 @@ body {
 .markdown-preview {
     flex: 1;
     background: #faf7f2;
-    background-image: 
-        linear-gradient(90deg, transparent 79px, #d4c7a8 79px, #d4c7a8 81px, transparent 81px),
-        linear-gradient(#ede8de 0.1em, transparent 0.1em);
-    background-size: 100% 1.5em;
     padding: 40px 60px;
     overflow-y: auto;
     line-height: 1.6;
