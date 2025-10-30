@@ -153,23 +153,17 @@ ${html}
     hr {
         margin: 32px 0 !important;
     }
-    /* Better page breaks and orphan/widow control */
+    /* Better page breaks - allow content to flow naturally */
     h1, h2, h3, h4, h5, h6 {
         page-break-after: avoid;
-        break-after: avoid-page;
-        page-break-inside: avoid;
-        break-inside: avoid;
-        orphans: 3;
-        widows: 3;
+        break-after: avoid;
     }
-    p, li {
-        orphans: 3;
-        widows: 3;
-        page-break-inside: avoid;
-    }
-    ul, ol {
+    /* Allow text to break naturally across pages */
+    p, li, ul, ol {
         page-break-inside: auto;
+        break-inside: auto;
     }
+    /* Keep these elements together */
     pre, blockquote, table {
         page-break-inside: avoid;
         break-inside: avoid;
@@ -232,10 +226,7 @@ ${html}
                     orientation: 'portrait' 
                 },
                 pagebreak: { 
-                    mode: ['avoid-all', 'css', 'legacy'],
-                    before: '.page-break-before',
-                    after: '.page-break-after',
-                    avoid: 'h1, h2, h3, h4, h5, h6, pre, blockquote, table'
+                    mode: ['css', 'legacy']
                 }
             };
 
