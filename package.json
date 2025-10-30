@@ -1,0 +1,27 @@
+{
+  "name": "markdown-live-editor",
+  "version": "1.0.0",
+  "description": "A live markdown editor with PDF and HTML export capabilities",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "npx http-server -p 8080 -o",
+    "dev": "npx http-server -p 8080"
+  },
+  "keywords": [
+    "markdown",
+    "editor",
+    "pdf",
+    "html",
+    "export"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "marked": "^11.1.1",
+    "html2pdf.js": "^0.10.1",
+    "dompurify": "^3.0.8"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

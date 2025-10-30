@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Live Editor</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/themes.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="toolbar">
+            <h1>Markdown Live Editor</h1>
+            <div class="toolbar-actions">
+                <button id="save-style-btn" class="btn">💾 Save Style</button>
+                <button id="load-style-btn" class="btn">📂 Load Style</button>
+                <button id="export-html-btn" class="btn">📄 Export HTML</button>
+                <button id="export-pdf-btn" class="btn">📑 Export PDF</button>
+            </div>
+        </header>
+        
+        <div class="editor-container">
+            <div class="editor-panel">
+                <div class="panel-header">
+                    <h3>Editor</h3>
+                </div>
+                <textarea id="markdown-input" placeholder="Start typing your markdown here..."></textarea>
+            </div>
+            
+            <div class="resize-handle"></div>
+            
+            <div class="preview-panel">
+                <div class="panel-header">
+                    <h3>Preview</h3>
+                </div>
+                <div id="preview-output" class="markdown-preview"></div>
+            </div>
+        </div>
+        
+        <div class="style-editor-panel" id="style-editor">
+            <div class="panel-header">
+                <h3>Custom Styles</h3>
+                <button id="close-style-editor" class="btn-close">✕</button>
+            </div>
+            <textarea id="custom-css" placeholder="Enter custom CSS for exports..."></textarea>
+            <div class="style-actions">
+                <input type="text" id="style-name" placeholder="Style preset name" />
+                <button id="save-style-preset" class="btn">Save Preset</button>
+            </div>
+            <div id="saved-styles-list" class="saved-styles"></div>
+        </div>
+    </div>
+
+    <!-- Load dependencies from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.8/dist/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="src/storage.js"></script>
+    <script src="src/markdown-renderer.js"></script>
+    <script src="src/style-manager.js"></script>
+    <script src="src/export-manager.js"></script>
+    <script src="src/app.js"></script>
+</body>
+</html>
