@@ -47,10 +47,42 @@ ${html}
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <style>
-    ${css}
+    * {
+        box-sizing: border-box;
+    }
+    html {
+        background: white;
+    }
     body {
         background: white !important;
+        margin: 0;
+        padding: 40px 60px;
+        min-height: 100vh;
+    }
+    ${css}
+    /* PDF-specific overrides */
+    body {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 40px 60px !important;
+    }
+    h1:first-child {
+        margin-top: 0;
+    }
+    /* Better page breaks */
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+    pre, blockquote, table {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    img {
+        max-width: 100%;
+        page-break-inside: avoid;
     }
     </style>
 </head>
@@ -62,12 +94,13 @@ ${html}
         // Create an iframe to render the content
         const iframe = document.createElement('iframe');
         iframe.style.position = 'fixed';
-        iframe.style.top = '0';
-        iframe.style.left = '0';
+        iframe.style.top = '-9999px';
+        iframe.style.left = '-9999px';
         iframe.style.width = '210mm';
         iframe.style.height = '297mm';
         iframe.style.border = 'none';
-        iframe.style.zIndex = '99999';
+        iframe.style.opacity = '0';
+        iframe.style.pointerEvents = 'none';
         iframe.style.background = 'white';
         
         document.body.appendChild(iframe);
@@ -82,10 +115,6 @@ ${html}
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         try {
-            // Debug: Check if content exists
-            console.log('Iframe body innerHTML length:', iframeDoc.body.innerHTML.length);
-            console.log('Iframe body has children:', iframeDoc.body.children.length);
-            
             // Make sure body has visible content
             if (!iframeDoc.body.innerHTML || iframeDoc.body.innerHTML.trim().length === 0) {
                 throw new Error('No content to export');
@@ -97,12 +126,8 @@ ${html}
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2,
-                    logging: true,
-                    backgroundColor: '#ffffff',
-                    onclone: function(clonedDoc) {
-                        console.log('html2canvas cloned document');
-                        console.log('Cloned body height:', clonedDoc.body.scrollHeight);
-                    }
+                    logging: false,
+                    backgroundColor: '#ffffff'
                 },
                 jsPDF: { 
                     unit: 'mm', 
@@ -111,10 +136,8 @@ ${html}
                 }
             };
 
-            console.log('Starting PDF generation...');
             // Generate PDF from iframe body
             await html2pdf().set(options).from(iframeDoc.body).save();
-            console.log('PDF generation completed');
             
         } catch (error) {
             console.error('PDF export error:', error);
