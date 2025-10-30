@@ -71,7 +71,9 @@ ${html}
         padding: 40px 60px !important;
         min-height: 100vh;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        line-height: 1.6;
+        line-height: 1.8;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
     ${exportCSS}
     /* Additional PDF-specific overrides to ensure light theme */
@@ -86,6 +88,71 @@ ${html}
         color: #333333 !important;
         background: transparent !important;
     }
+    /* Better text wrapping and spacing */
+    p, li {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        text-align: justify;
+        text-justify: inter-word;
+    }
+    /* Improved paragraph spacing */
+    p {
+        margin-bottom: 20px !important;
+    }
+    /* Better list spacing */
+    ul, ol {
+        margin-bottom: 20px !important;
+        padding-left: 40px !important;
+    }
+    li {
+        margin-bottom: 10px !important;
+    }
+    /* Better heading spacing */
+    h1 {
+        margin-top: 32px !important;
+        margin-bottom: 20px !important;
+        line-height: 1.3 !important;
+    }
+    h2 {
+        margin-top: 28px !important;
+        margin-bottom: 18px !important;
+        line-height: 1.3 !important;
+    }
+    h3 {
+        margin-top: 24px !important;
+        margin-bottom: 16px !important;
+        line-height: 1.4 !important;
+    }
+    h4, h5, h6 {
+        margin-top: 20px !important;
+        margin-bottom: 14px !important;
+        line-height: 1.4 !important;
+    }
+    /* Better code block formatting */
+    pre {
+        white-space: pre-wrap !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        margin-bottom: 20px !important;
+    }
+    code {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    /* Better blockquote spacing */
+    blockquote {
+        margin: 20px 0 !important;
+        padding: 15px 20px !important;
+    }
+    /* Better table spacing */
+    table {
+        margin: 20px 0 !important;
+    }
+    /* Horizontal rule spacing */
+    hr {
+        margin: 32px 0 !important;
+    }
     /* Better page breaks */
     h1, h2, h3, h4, h5, h6 {
         page-break-after: avoid;
@@ -98,6 +165,7 @@ ${html}
     img {
         max-width: 100%;
         page-break-inside: avoid;
+        margin: 20px 0 !important;
     }
     </style>
 </head>
