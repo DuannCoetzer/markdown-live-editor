@@ -42,86 +42,73 @@ ${html}
         const html = MarkdownRenderer.render(markdown);
         const css = customCSS || StyleManager.getDefaultExportCSS();
 
-        // Parse CSS and create inline styles object for common elements
-        const inlineStyles = `
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            padding: 20px;
-            background-color: #ffffff;
-            width: 750px;
-        `;
+        // Create HTML with inline styles
+        const styledHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    ${css}
+    body {
+        background: white !important;
+    }
+    </style>
+</head>
+<body>
+${html}
+</body>
+</html>`;
 
-        // Create a temporary container that's visible
-        const container = document.createElement('div');
-        container.style.cssText = `
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 750px;
-            background-color: #ffffff;
-            padding: 20px;
-            z-index: 99999;
-            overflow: visible;
-        `;
-        container.innerHTML = html;
+        // Create an iframe to render the content
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'fixed';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+        iframe.style.width = '210mm';
+        iframe.style.height = '297mm';
+        iframe.style.border = 'none';
+        iframe.style.zIndex = '99999';
+        iframe.style.background = 'white';
         
-        // Apply CSS styles via a style tag in the document head temporarily
-        const tempStyle = document.createElement('style');
-        tempStyle.id = 'temp-pdf-styles';
-        tempStyle.textContent = css;
-        document.head.appendChild(tempStyle);
+        document.body.appendChild(iframe);
         
-        document.body.appendChild(container);
+        // Write content to iframe
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        iframeDoc.open();
+        iframeDoc.write(styledHTML);
+        iframeDoc.close();
 
-        // Wait for rendering and fonts to load
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Wait for iframe to render
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
         try {
-            // Configure html2pdf options with more reliable settings
             const options = {
-                margin: [10, 10, 10, 10],
+                margin: 10,
                 filename: `markdown-export-${Date.now()}.pdf`,
-                image: { 
-                    type: 'jpeg', 
-                    quality: 0.95 
-                },
+                image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2,
-                    useCORS: true,
                     logging: true,
-                    backgroundColor: '#ffffff',
-                    windowWidth: 750,
-                    scrollY: -window.scrollY,
-                    scrollX: -window.scrollX,
-                    allowTaint: true
+                    backgroundColor: '#ffffff'
                 },
                 jsPDF: { 
                     unit: 'mm', 
                     format: 'a4', 
-                    orientation: 'portrait',
-                    compress: true
-                },
-                pagebreak: { 
-                    mode: ['avoid-all', 'css', 'legacy']
+                    orientation: 'portrait' 
                 }
             };
 
-            // Generate PDF
-            await html2pdf().set(options).from(container).save();
+            // Generate PDF from iframe body
+            await html2pdf().set(options).from(iframeDoc.body).save();
             
         } catch (error) {
             console.error('PDF export error:', error);
-            alert('Error exporting to PDF: ' + error.message);
+            console.error('Error stack:', error.stack);
+            alert('Error exporting to PDF. Check console for details.');
         } finally {
-            // Clean up
-            if (container.parentNode) {
-                document.body.removeChild(container);
-            }
-            const tempStyleEl = document.getElementById('temp-pdf-styles');
-            if (tempStyleEl) {
-                document.head.removeChild(tempStyleEl);
+            // Clean up iframe
+            if (iframe.parentNode) {
+                document.body.removeChild(iframe);
             }
         }
     },
