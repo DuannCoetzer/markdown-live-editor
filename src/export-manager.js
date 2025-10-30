@@ -42,25 +42,46 @@ ${html}
         const html = MarkdownRenderer.render(markdown);
         const css = customCSS || StyleManager.getDefaultExportCSS();
 
-        // Create a temporary style element in the head
-        const styleElement = document.createElement('style');
-        styleElement.id = 'pdf-export-styles';
-        styleElement.textContent = css;
-        document.head.appendChild(styleElement);
+        // Create full HTML document
+        const fullHTML = `
+            <div style="
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                max-width: 800px;
+                margin: 40px auto;
+                padding: 20px;
+                background-color: #ffffff;
+            ">
+                ${html}
+            </div>
+        `;
 
-        // Create a temporary container
+        // Create a temporary container with proper visibility
         const container = document.createElement('div');
-        container.style.position = 'absolute';
-        container.style.left = '-9999px';
+        container.style.position = 'fixed';
+        container.style.left = '0';
         container.style.top = '0';
-        container.style.width = '800px';
+        container.style.width = '210mm'; // A4 width
         container.style.backgroundColor = '#ffffff';
-        container.style.padding = '40px';
+        container.style.zIndex = '-9999';
+        container.style.opacity = '0';
+        container.style.pointerEvents = 'none';
         
-        // Add content
-        container.innerHTML = html;
+        // Create style element and add CSS
+        const styleElement = document.createElement('style');
+        styleElement.textContent = css;
+        container.appendChild(styleElement);
+        
+        // Add content wrapper
+        const contentWrapper = document.createElement('div');
+        contentWrapper.innerHTML = html;
+        container.appendChild(contentWrapper);
         
         document.body.appendChild(container);
+
+        // Wait for rendering
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         try {
             // Configure html2pdf options
@@ -72,7 +93,10 @@ ${html}
                     scale: 2,
                     useCORS: true,
                     letterRendering: true,
-                    backgroundColor: '#ffffff'
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    windowWidth: 794, // A4 width in pixels at 96 DPI
+                    windowHeight: 1123 // A4 height in pixels at 96 DPI
                 },
                 jsPDF: { 
                     unit: 'mm', 
@@ -90,10 +114,6 @@ ${html}
         } finally {
             // Clean up
             document.body.removeChild(container);
-            const style = document.getElementById('pdf-export-styles');
-            if (style) {
-                document.head.removeChild(style);
-            }
         }
     },
 
