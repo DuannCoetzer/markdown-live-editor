@@ -38,9 +38,9 @@ const MarkdownRenderer = {
                     'ul', 'ol', 'li',
                     'blockquote', 'pre', 'code',
                     'table', 'thead', 'tbody', 'tr', 'th', 'td',
-                    'hr', 'div', 'span'
+                    'hr', 'div', 'span', 'input'
                 ],
-                ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'id']
+                ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'id', 'type', 'checked', 'disabled']
             });
 
             return cleanHtml;
